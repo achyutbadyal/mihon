@@ -3,6 +3,7 @@ package eu.kanade.presentation.reader.appbars
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -12,17 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import eu.kanade.tachiyomi.R
-import eu.kanade.tachiyomi.ui.reader.setting.ReaderOrientation
-import eu.kanade.tachiyomi.ui.reader.setting.ReadingMode
 import tachiyomi.i18n.MR
 import tachiyomi.presentation.core.i18n.stringResource
 
 @Composable
 fun ReaderBottomBar(
-    readingMode: ReadingMode,
-    onClickReadingMode: () -> Unit,
-    orientation: ReaderOrientation,
-    onClickOrientation: () -> Unit,
+    onClickChapterList: () -> Unit,
     cropEnabled: Boolean,
     onClickCropBorder: () -> Unit,
     onClickSettings: () -> Unit,
@@ -34,17 +30,10 @@ fun ReaderBottomBar(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        IconButton(onClick = onClickReadingMode) {
+        IconButton(onClick = onClickChapterList) {
             Icon(
-                painter = painterResource(readingMode.iconRes),
-                contentDescription = stringResource(MR.strings.viewer),
-            )
-        }
-
-        IconButton(onClick = onClickOrientation) {
-            Icon(
-                imageVector = orientation.icon,
-                contentDescription = stringResource(MR.strings.rotation_type),
+                imageVector = Icons.AutoMirrored.Outlined.List,
+                contentDescription = stringResource(MR.strings.chapters),
             )
         }
 

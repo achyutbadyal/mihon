@@ -26,8 +26,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.window.Dialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -50,11 +55,10 @@ import com.hippo.unifile.UniFile
 import eu.kanade.core.util.ifSourcesLoaded
 import eu.kanade.domain.base.BasePreferences
 import eu.kanade.presentation.reader.DisplayRefreshHost
-import eu.kanade.presentation.reader.OrientationSelectDialog
+import eu.kanade.presentation.reader.ReaderChapterListDialog
 import eu.kanade.presentation.reader.ReaderContentOverlay
 import eu.kanade.presentation.reader.ReaderPageActionsDialog
 import eu.kanade.presentation.reader.ReaderPageIndicator
-import eu.kanade.presentation.reader.ReadingModeSelectDialog
 import eu.kanade.presentation.reader.appbars.ReaderAppBars
 import eu.kanade.presentation.reader.settings.ReaderSettingsDialog
 import eu.kanade.tachiyomi.R
@@ -276,19 +280,22 @@ class ReaderActivity : BaseActivity() {
         val onDismissRequest = viewModel::closeDialog
         when (state.dialog) {
             is ReaderViewModel.Dialog.Loading -> {
-                AlertDialog(
-                    onDismissRequest = {},
-                    confirmButton = {},
-                    text = {
+                Dialog(onDismissRequest = {}) {
+                    Surface(
+                        shape = MaterialTheme.shapes.extraLarge,
+                        color = AlertDialogDefaults.containerColor,
+                        tonalElevation = AlertDialogDefaults.TonalElevation,
+                    ) {
                         Row(
+                            modifier = Modifier.padding(24.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             CircularProgressIndicator()
                             Text(stringResource(MR.strings.loading))
                         }
-                    },
-                )
+                    }
+                }
             }
             is ReaderViewModel.Dialog.Settings -> {
                 ReaderSettingsDialog(
@@ -298,25 +305,13 @@ class ReaderActivity : BaseActivity() {
                     screenModel = settingsScreenModel,
                 )
             }
-            is ReaderViewModel.Dialog.ReadingModeSelect -> {
-                ReadingModeSelectDialog(
+            is ReaderViewModel.Dialog.ChapterList -> {
+                ReaderChapterListDialog(
                     onDismissRequest = onDismissRequest,
-                    screenModel = settingsScreenModel,
-                    onChange = { stringRes ->
-                        menuToggleToast?.cancel()
-                        if (!readerPreferences.showReadingMode().get()) {
-                            menuToggleToast = toast(stringRes)
-                        }
-                    },
-                )
-            }
-            is ReaderViewModel.Dialog.OrientationModeSelect -> {
-                OrientationSelectDialog(
-                    onDismissRequest = onDismissRequest,
-                    screenModel = settingsScreenModel,
-                    onChange = { stringRes ->
-                        menuToggleToast?.cancel()
-                        menuToggleToast = toast(stringRes)
+                    chapters = viewModel.getChapters(),
+                    currentChapter = state.currentChapter,
+                    onChapterSelected = {
+                         viewModel.loadChapter(it)
                     },
                 )
             }
@@ -483,14 +478,10 @@ class ReaderActivity : BaseActivity() {
                 moveToPageIndex(it)
             },
 
-            readingMode = ReadingMode.fromPreference(
-                viewModel.getMangaReadingMode(resolveDefault = false),
-            ),
-            onClickReadingMode = viewModel::openReadingModeSelectDialog,
-            orientation = ReaderOrientation.fromPreference(
-                viewModel.getMangaOrientation(resolveDefault = false),
-            ),
-            onClickOrientation = viewModel::openOrientationModeSelectDialog,
+
+
+            onClickChapterList = viewModel::openChapterListDialog,
+
             cropEnabled = cropEnabled,
             onClickCropBorder = {
                 val enabled = viewModel.toggleCropBorders()

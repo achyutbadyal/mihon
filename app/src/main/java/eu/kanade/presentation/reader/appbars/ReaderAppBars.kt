@@ -56,11 +56,8 @@ fun ReaderAppBars(
     currentPage: Int,
     totalPages: Int,
     onPageIndexChange: (Int) -> Unit,
-
-    readingMode: ReadingMode,
-    onClickReadingMode: () -> Unit,
-    orientation: ReaderOrientation,
-    onClickOrientation: () -> Unit,
+    
+    onClickChapterList: () -> Unit,
     cropEnabled: Boolean,
     onClickCropBorder: () -> Unit,
     onClickSettings: () -> Unit,
@@ -119,10 +116,7 @@ fun ReaderAppBars(
                         .background(backgroundColor)
                         .padding(horizontal = MaterialTheme.padding.small)
                         .windowInsetsPadding(WindowInsets.navigationBars),
-                    readingMode = readingMode,
-                    onClickReadingMode = onClickReadingMode,
-                    orientation = orientation,
-                    onClickOrientation = onClickOrientation,
+                    onClickChapterList = onClickChapterList,
                     cropEnabled = cropEnabled,
                     onClickCropBorder = onClickCropBorder,
                     onClickSettings = onClickSettings,

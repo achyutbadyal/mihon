@@ -341,22 +341,26 @@ class ReaderViewModel @JvmOverloads constructor(
      * It's used only to set this chapter as active.
      */
     private fun loadNewChapter(chapter: ReaderChapter) {
+        viewModelScope.launchIO {
+            internalLoadChapter(chapter)
+        }
+    }
+
+    private suspend fun internalLoadChapter(chapter: ReaderChapter) {
         val loader = loader ?: return
 
-        viewModelScope.launchIO {
-            logcat { "Loading ${chapter.chapter.url}" }
+        logcat { "Loading ${chapter.chapter.url}" }
 
-            updateHistory()
-            restartReadTimer()
+        updateHistory()
+        restartReadTimer()
 
-            try {
-                loadChapter(loader, chapter)
-            } catch (e: Throwable) {
-                if (e is CancellationException) {
-                    throw e
-                }
-                logcat(LogPriority.ERROR, e)
+        try {
+            loadChapter(loader, chapter)
+        } catch (e: Throwable) {
+            if (e is CancellationException) {
+                throw e
             }
+            logcat(LogPriority.ERROR, e)
         }
     }
 
@@ -767,12 +771,8 @@ class ReaderViewModel @JvmOverloads constructor(
         mutableState.update { it.copy(dialog = Dialog.Loading) }
     }
 
-    fun openReadingModeSelectDialog() {
-        mutableState.update { it.copy(dialog = Dialog.ReadingModeSelect) }
-    }
-
-    fun openOrientationModeSelectDialog() {
-        mutableState.update { it.copy(dialog = Dialog.OrientationModeSelect) }
+    fun openChapterListDialog() {
+        mutableState.update { it.copy(dialog = Dialog.ChapterList) }
     }
 
     fun openPageDialog(page: ReaderPage) {
@@ -970,9 +970,23 @@ class ReaderViewModel @JvmOverloads constructor(
     sealed interface Dialog {
         data object Loading : Dialog
         data object Settings : Dialog
-        data object ReadingModeSelect : Dialog
-        data object OrientationModeSelect : Dialog
+        data object ChapterList : Dialog
         data class PageActions(val page: ReaderPage) : Dialog
+    }
+
+    fun getChapters(): List<ReaderChapter> {
+        return chapterList
+    }
+
+    fun loadChapter(chapter: ReaderChapter) {
+        viewModelScope.launchIO {
+            mutableState.update { it.copy(isLoadingAdjacentChapter = true) }
+            try {
+                internalLoadChapter(chapter)
+            } finally {
+                mutableState.update { it.copy(isLoadingAdjacentChapter = false) }
+            }
+        }
     }
 
     sealed interface Event {
