@@ -1,12 +1,12 @@
-import mihon.buildlogic.Config
+import kikyo.buildlogic.Config
 
 plugins {
-    id("mihon.library")
+    id("kikyo.library")
     kotlin("android")
 }
 
 android {
-    namespace = "mihon.telemetry"
+    namespace = "kikyo.telemetry"
 
     sourceSets {
         getByName("main") {

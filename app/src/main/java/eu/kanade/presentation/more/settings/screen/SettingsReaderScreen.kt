@@ -204,7 +204,11 @@ object SettingsReaderScreen : SearchableSettings {
                     value = preloadChapterThreshold,
                     valueRange = 1..10,
                     title = stringResource(MR.strings.pref_preload_next_chapter_threshold),
-                    valueString = pluralStringResource(MR.plurals.pref_pages, preloadChapterThreshold, preloadChapterThreshold),
+                    valueString = pluralStringResource(
+                        MR.plurals.pref_pages,
+                        preloadChapterThreshold,
+                        preloadChapterThreshold,
+                    ),
                     onValueChanged = { readerPreferences.preloadChapterThreshold().set(it) },
                     defaultValue = 5,
                 ),

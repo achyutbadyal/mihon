@@ -1,11 +1,11 @@
 plugins {
-    id("mihon.library")
+    id("kikyo.library")
     kotlin("android")
     kotlin("plugin.serialization")
 }
 
 android {
-    namespace = "mihon.core.archive"
+    namespace = "kikyo.core.archive"
 }
 
 dependencies {

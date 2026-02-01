@@ -31,9 +31,9 @@ import eu.kanade.tachiyomi.ui.home.HomeScreen
 import eu.kanade.tachiyomi.ui.manga.MangaScreen
 import eu.kanade.tachiyomi.ui.webview.WebViewScreen
 import kotlinx.coroutines.launch
-import mihon.feature.migration.dialog.MigrateMangaDialog
-import mihon.feature.migration.list.MigrationListScreen
-import mihon.presentation.core.util.collectAsLazyPagingItems
+import kikyo.feature.migration.dialog.MigrateMangaDialog
+import kikyo.feature.migration.list.MigrationListScreen
+import kikyo.presentation.core.util.collectAsLazyPagingItems
 import tachiyomi.core.common.Constants
 import tachiyomi.domain.manga.model.Manga
 import tachiyomi.i18n.MR

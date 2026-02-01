@@ -54,8 +54,8 @@ import eu.kanade.tachiyomi.ui.webview.WebViewScreen
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
-import mihon.feature.migration.dialog.MigrateMangaDialog
-import mihon.presentation.core.util.collectAsLazyPagingItems
+import kikyo.feature.migration.dialog.MigrateMangaDialog
+import kikyo.presentation.core.util.collectAsLazyPagingItems
 import tachiyomi.core.common.Constants
 import tachiyomi.core.common.util.lang.launchIO
 import tachiyomi.domain.source.model.StubSource

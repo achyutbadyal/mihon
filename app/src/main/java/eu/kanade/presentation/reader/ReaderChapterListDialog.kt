@@ -64,7 +64,10 @@ fun ReaderChapterListDialog(
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
-                        .padding(horizontal = TabbedDialogPaddings.Horizontal, vertical = TabbedDialogPaddings.Vertical)
+                        .padding(
+                            horizontal = TabbedDialogPaddings.Horizontal,
+                            vertical = TabbedDialogPaddings.Vertical,
+                        ),
                 )
 
                 HorizontalDivider()
@@ -75,7 +78,8 @@ fun ReaderChapterListDialog(
                 ) {
                     items(chapters) { chapter ->
                         val isCurrent = chapter.chapter.id == currentChapter?.chapter?.id
-                        val itemColor = if (isCurrent) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                        val itemColor =
+                            if (isCurrent) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                         val alpha = if (chapter.chapter.read && !isCurrent) 0.38f else 1f
 
                         Row(
@@ -119,7 +123,9 @@ fun ReaderChapterListDialog(
                                     Text(
                                         text = DateFormat.getDateInstance(DateFormat.SHORT).format(date),
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (chapter.chapter.read) 0.38f else 1f),
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                            alpha = if (chapter.chapter.read) 0.38f else 1f,
+                                        ),
                                     )
                                 }
                             }

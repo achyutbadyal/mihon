@@ -1,11 +1,11 @@
-import mihon.buildlogic.Config
-import mihon.buildlogic.getBuildTime
-import mihon.buildlogic.getCommitCount
-import mihon.buildlogic.getGitSha
+import kikyo.buildlogic.Config
+import kikyo.buildlogic.getBuildTime
+import kikyo.buildlogic.getCommitCount
+import kikyo.buildlogic.getGitSha
 
 plugins {
-    id("mihon.android.application")
-    id("mihon.android.application.compose")
+    id("kikyo.android.application")
+    id("kikyo.android.application.compose")
     id("com.github.zellius.shortcut-helper")
     kotlin("plugin.serialization")
     alias(libs.plugins.aboutLibraries)
@@ -24,7 +24,7 @@ android {
     namespace = "eu.kanade.tachiyomi"
 
     defaultConfig {
-        applicationId = "app.mihon"
+        applicationId = "app.kikyo"
 
         versionCode = 16
         versionName = "0.19.3"
