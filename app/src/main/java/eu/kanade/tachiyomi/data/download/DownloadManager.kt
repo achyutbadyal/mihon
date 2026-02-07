@@ -209,6 +209,13 @@ class DownloadManager(
         return cache.getDownloadCount(manga)
     }
 
+    /**
+     * Returns the amount of downloaded mangas per source.
+     */
+    fun getSourceDownloadCounts(): Map<Long, Int> {
+        return cache.getSourceDownloadCounts()
+    }
+
     fun cancelQueuedDownloads(downloads: List<Download>) {
         removeFromDownloadQueue(downloads.map { it.chapter })
     }

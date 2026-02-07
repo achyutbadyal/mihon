@@ -66,6 +66,10 @@ class MangaRepositoryImpl(
         return handler.subscribeToList { mangasQueries.getFavoriteBySourceId(sourceId, MangaMapper::mapManga) }
     }
 
+    override fun getMangaBySourceId(sourceId: Long): Flow<List<Manga>> {
+        return handler.subscribeToList { mangasQueries.getMangaBySourceId(sourceId, MangaMapper::mapManga) }
+    }
+
     override suspend fun getDuplicateLibraryManga(id: Long, title: String): List<MangaWithChapterCount> {
         return handler.awaitList {
             mangasQueries.getDuplicateLibraryManga(id, title, MangaMapper::mapMangaWithChapterCount)

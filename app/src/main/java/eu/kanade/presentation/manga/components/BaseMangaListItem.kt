@@ -1,6 +1,7 @@
 package eu.kanade.presentation.manga.components
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -17,11 +18,13 @@ import androidx.compose.ui.unit.dp
 import tachiyomi.domain.manga.model.Manga
 import tachiyomi.presentation.core.components.material.padding
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BaseMangaListItem(
     manga: Manga,
     modifier: Modifier = Modifier,
     onClickItem: () -> Unit = {},
+    onLongClickItem: () -> Unit = {},
     onClickCover: () -> Unit = onClickItem,
     cover: @Composable RowScope.() -> Unit = { defaultCover(manga, onClickCover) },
     actions: @Composable RowScope.() -> Unit = {},
@@ -29,7 +32,10 @@ fun BaseMangaListItem(
 ) {
     Row(
         modifier = modifier
-            .clickable(onClick = onClickItem)
+            .combinedClickable(
+                onClick = onClickItem,
+                onLongClick = onLongClickItem,
+            )
             .height(56.dp)
             .padding(horizontal = MaterialTheme.padding.medium),
         verticalAlignment = Alignment.CenterVertically,

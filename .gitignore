@@ -2,6 +2,7 @@
 .gradle
 .kotlin
 build
+release
 
 # IDE files
 *.iml
